@@ -1,0 +1,68 @@
+package stepDefination;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import com.utils.BaseClass;
+import com.utils.LoginPageElmt;
+
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import junit.framework.Assert;
+
+
+public class LoginPage extends BaseClass{
+	
+	@Before
+	public void setup() throws Exception {
+			BaseClass.setUp();
+	}
+	
+	
+	
+	
+	@Given("^User already on login page$")
+	public void User_already_on_login_page() {
+		String Title = driver.getTitle();
+		System.out.println(Title);
+	}
+
+	@When("^When login section display$")
+	public void when_login_section_display()  {
+		WebElement username = driver.findElement(By.name("username"));
+		WebElement password = driver.findElement(By.name("username"));
+	if(username.isDisplayed() && password.isDisplayed()) {
+			System.out.println("Username and password section is displaying");
+		}
+	}
+
+	@Then("^User enter \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void user_enter_and(String arg1, String arg2) {
+		driver.findElement(By.name("username")).sendKeys(arg1);
+		driver.findElement(By.name("username")).sendKeys(arg2);
+	}
+
+	@Then("^Click on login button$")
+	public void click_on_login_button() {
+		WebElement submitbtn = driver.findElement(By.xpath("//*[@type='submit']"));
+		submitbtn.click();
+	}
+
+	@SuppressWarnings("deprecation")
+	@Then("^User on Dashboard page$")
+	public void user_on_Dashboard_page() {
+		String Title = driver.getTitle();
+		System.out.println(Title);
+		Assert.assertEquals("CRMPRO", Title);
+	}
+	
+	@Then("^Click on logout button$")
+	public void click_on_logout_button() {
+		WebElement logoutbtn = driver.findElement(By.xpath("//*[contains(@href,'logout')]"));
+		logoutbtn.click();
+	}
+	
+}

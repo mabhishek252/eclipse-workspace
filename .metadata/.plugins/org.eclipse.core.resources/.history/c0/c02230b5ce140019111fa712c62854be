@@ -1,0 +1,121 @@
+package com.qa.clients;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.http.Header;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
+public class RestClients {
+
+	// 1. Method for GET call
+	public void get(String url) throws ClientProtocolException, IOException {
+
+		// CloseableHttpClient is abstract class which is use to create http client
+		// connection
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+
+		// create get object to hit request
+		HttpGet httpGet = new HttpGet(url);
+
+		// This will execute GET request and we will get response so we need to
+		// store it as 'closeableHttpResponse' with help of 'CloseableHttpResponse'
+		// interface
+		CloseableHttpResponse closeableHttpResponse = httpClient.execute(httpGet);
+
+		// a. Status Code
+		// Get status code using closeableHttpResponse and it will return integer so we
+		// need to save as integer
+		int StatusCode = closeableHttpResponse.getStatusLine().getStatusCode();
+		System.out.println("Status Code: " + StatusCode);
+
+		// We can use Entity Utils Class to store response string from response object
+		// (closeableHttpResponse)
+		// In format of 'UTF-8'
+		String responseString = EntityUtils.toString(closeableHttpResponse.getEntity(), "UTF-8");
+
+		// b. JSON String
+		// We need response in JSON format, so here we will use JSONObject class from
+		// 'json dependencies'
+		JSONObject responseJson = new JSONObject(responseString);
+		System.out.println("Response in JSON format: " + "\n" + responseJson);
+
+		// c. Headers
+		// 'closeableHttpResponse' have method 'getAllHeaders' so we can get header
+		// 'getAllHeaders' method is return Header[] (array of header) so we need to
+		// store it in array
+		Header[] headersArray = closeableHttpResponse.getAllHeaders();
+
+		// header is in key-value pair so we have to convert 'headersArray' in HashMap
+		HashMap<String, String> allHeader = new HashMap<String, String>();
+
+		// Using 'for each' loop we have to iterate all headerArray and put in hashmap
+		// as key-value pair
+		for (Header header : headersArray) {
+			allHeader.put(header.getName(), header.getValue());
+		}
+
+		System.out.println("Header of Response: " + "\n" + allHeader);
+
+	}
+	
+	// 1. Method for GET call
+		public CloseableHttpResponse post(String url, String entityString, HashMap<String, String> headerMap) throws ClientProtocolException, IOException {
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+
+			// http post request
+			HttpPost httpPost = new HttpPost(url);
+			
+			// Payload
+			httpPost.setEntity(new StringEntity(entityString));
+			
+			// Header
+			for(Map.Entry<String, String> entry : headerMap.entrySet()) {
+				httpPost.addHeader(entry.getKey(), entry.getValue());
+			}
+			
+			// Execute Post request
+			CloseableHttpResponse CloseableHttpResponse = httpClient.execute(httpPost);
+			
+			// CloseableHttpResponse will return response 
+			return CloseableHttpResponse;
+		}
+		
+		public CloseableHttpResponse put(String url, String entityString, HashMap<String, String> headerMap) throws ClientProtocolException, IOException {
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+			HttpPut httpPut = new HttpPut(url);
+			
+			// Payload
+			httpPut.setEntity(new StringEntity(entityString));
+						
+			// Header
+			for(Map.Entry<String, String> entry : headerMap.entrySet()) {
+				httpPut.addHeader(entry.getKey(), entry.getValue());
+			}
+						
+			// Execute Post request
+			CloseableHttpResponse CloseableHttpResponse = httpClient.execute(httpPut);
+						
+			// CloseableHttpResponse will return response 
+			return CloseableHttpResponse;
+		}
+		
+		public void delete(String url, String entityString) {
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+			HttpDelete httpDelete = new HttpDelete(url);
+			
+			 
+		}
+
+}

@@ -1,0 +1,8 @@
+Feature: Login CRM feature
+Scenario: CRM Login Test Scenario
+	Given User already on FB login page
+	When Title of page is Facebook
+	Then User enter "abhishek" and "abhi@123"
+	Then Click on login button
+	Then User on Dashboard page
+	

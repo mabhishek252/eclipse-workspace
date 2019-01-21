@@ -1,0 +1,56 @@
+package collectionExamples;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class HashMapExp {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		Map <String, List<String>> map = new HashMap<String, List<String>>();
+		
+		List<String> valSetOne = new ArrayList<String>();
+		valSetOne.add("Apple");
+		valSetOne.add("Orange");
+		valSetOne.add("Mango");
+		
+		List<String> valSetTwo = new ArrayList<String>();
+		valSetTwo.add("Tomato");
+		valSetTwo.add("Potato");
+		valSetTwo.add("Onion");
+		
+		List<String> valSetThree = new ArrayList<String>();
+		valSetThree.add("CorinderPowder");
+		valSetThree.add("Salt");
+		valSetThree.add("Termaric");
+		
+		map.put("Fruits", valSetOne);
+		map.put("Vegitable", valSetTwo);
+		map.put("Masala", valSetThree);
+		
+		map.remove(valSetOne, "Apple");
+		map.replace("Fruits", valSetOne, valSetTwo);
+		map.replace("Apple", valSetOne);
+		
+		
+		System.out.println(map.get(valSetOne));
+		
+		
+		/*System.out.println("Fetching Keys and corresponding [Multiple] Values n");
+	    for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+	    	
+	    	String key = entry.getKey();
+	    	List<String> values = entry.getValue();
+	    	System.out.println("Entry set of Keys = " + key + " and Values = " + values);
+	    	//System.out.println("Entry set of Values = " + values);
+	    }*/
+	    
+	    
+	}
+
+}

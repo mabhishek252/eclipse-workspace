@@ -1,0 +1,12 @@
+package threading;
+
+
+
+
+public class Th_Naming extends Thread{
+
+	public static void main(String[] args) {
+
+	}
+
+}

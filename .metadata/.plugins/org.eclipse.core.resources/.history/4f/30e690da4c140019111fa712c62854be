@@ -1,0 +1,39 @@
+package com.qa.data;
+
+//
+public class Users {
+
+	String name;
+	String job;
+	
+	public Users() {
+	}
+	
+	public Users(String name, String job) {
+		this.name = name;
+		this.job = job;
+	}
+
+	//geter methods for Name variable
+	public String getName() {
+		return name;
+	}
+
+	//setter methods for Name variable
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	//geter methods for Job variable
+	public String getJob() {
+		return job;
+	}
+
+	//setter methods for Job variable
+	public void setJob(String job) {
+		this.job = job;
+	}
+	
+	
+	
+}

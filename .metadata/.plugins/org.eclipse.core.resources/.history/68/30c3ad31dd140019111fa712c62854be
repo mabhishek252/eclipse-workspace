@@ -1,0 +1,39 @@
+package com.qa.tests;
+
+import java.io.IOException;
+
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.qa.base.BaseClass;
+import com.qa.clients.RestClients;
+
+public class DeletAPITest extends BaseClass{
+	BaseClass baseClass;
+	RestClients restClient;
+	String url;
+	
+	@BeforeMethod
+	public void sdtup() {
+		baseClass = new BaseClass();
+		String baseURL = prop.getProperty("baseURL");
+		String serviceURL = prop.getProperty("serviceURL");
+		String deleteURL = prop.getProperty("deleteURL");
+		url = baseURL + serviceURL + deleteURL;
+	}
+	
+	@Test
+	public void deleteAPICall() throws ClientProtocolException, IOException {
+		restClient = new RestClients();
+		CloseableHttpResponse closeableHttpResponse = restClient.delete(url);
+		
+		
+		
+		
+	}
+	
+	
+
+}

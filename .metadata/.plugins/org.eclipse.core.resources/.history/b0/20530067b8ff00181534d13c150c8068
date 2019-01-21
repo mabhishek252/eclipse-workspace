@@ -1,0 +1,9 @@
+package threading;
+
+public class Th_Priority {
+
+	public static void main(String[] args) {
+
+	}
+
+}

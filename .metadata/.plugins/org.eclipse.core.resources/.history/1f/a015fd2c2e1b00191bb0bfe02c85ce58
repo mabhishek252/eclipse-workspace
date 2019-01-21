@@ -1,0 +1,258 @@
+package com.crossover.e2e;
+
+import java.io.File;
+import java.io.FileReader;
+import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import junit.framework.TestCase;
+import org.junit.Test;
+import org.openqa.selenium.*;
+import org.openqa.selenium.By.ByCssSelector;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+
+public class GMailTest2 extends TestCase {
+    private WebDriver driver;
+    Properties properties = new Properties();
+
+    public void setUp() throws Exception {
+    	//Add ("user.dir") line to complete path 
+        properties.load(new FileReader(new File(System.getProperty("user.dir") + "/src/test/resources/test.properties")));
+       
+        //Dont Change below line. Set this value in test.properties file incase you need to change it..
+        System.setProperty("webdriver.chrome.driver",properties.getProperty("webdriver.chrome.driver"));
+        driver = new ChromeDriver();
+    }
+
+    public void tearDown() throws Exception {
+        driver.quit();
+    }
+
+    /*
+     * Please focus on completing the task
+     * 
+     */
+    
+    @Test
+    public void testSendEmail() throws Exception {
+        driver.get("https://mail.google.com/");
+       
+        driver.manage().window().maximize();
+        Thread.sleep(5000);
+        
+        WebElement userElement = driver.findElement(By.id("identifierId"));
+        userElement.sendKeys(properties.getProperty("username"));
+
+        //Thread.sleep(1000);
+        
+        //driver.findElement(By.xpath("//*[text()='Next']")).click(); //Change element locator from id to text() xpath
+        driver.findElement(By.id("identifierNext")).click();
+
+        Thread.sleep(5000);
+        
+        //WebElement passwordElement = driver.findElement(By.name("password"));
+        //WebElement passwordElement = driver.findElement(By.xpath("//input[@type='password']"));
+        WebElement passwordElement = driver.findElement(By.cssSelector("input[type=password]"));
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(passwordElement));
+        
+        passwordElement.click();
+        
+        passwordElement.sendKeys(properties.getProperty("password"));
+        driver.findElement(By.id("passwordNext")).click();
+
+        
+        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        //change xpath from //*[@role='button' and (.)='COMPSE'] to //*[@role='button' and (.)='Compose']
+        
+        Thread.sleep(5000);
+        WebElement composeElement = driver.findElement(By.xpath("//*[@role='button' and (.)='Compose']"));
+        composeElement.click();
+        Thread.sleep(5000);
+        driver.findElement(By.name("to")).clear();
+        driver.findElement(By.name("to")).sendKeys(String.format("%s@gmail.com", properties.getProperty("username")));
+        
+        // emailSubject and emailbody to be used in this unit test.
+        String emailSubject = properties.getProperty("email.subject");
+        String emailBody = properties.getProperty("email.body"); 
+        Thread.sleep(5000); 
+		        //Subject line being added //*[@role='textbox']//preceding::input[@name='subjectbox']
+		        //driver.findElement(By.xpath("//*[@role='textbox']//preceding::input[@name='subjectbox']"));
+		        driver.findElement(By.name("subjectbox")).sendKeys(emailSubject);
+		        Thread.sleep(5000);
+		        //Email body being added //*[@name='subjectbox']//following::div[@role='textbox']
+		        //driver.findElement(By.xpath("//*[@name='subjectbox']//following::div[@role='textbox']"));
+		        driver.findElement(By.xpath("//*[@role='textbox']")).sendKeys(emailBody);
+        
+		        Thread.sleep(5000);
+		        
+		       //Click on side menu to open lebel menu 
+		        driver.findElement(By.xpath("//div[@role='button']/child::div/img[@src='images/cleardot.gif']/../..")).click(); 
+		       
+		       //Mouse hover on label menu
+		        WebElement Lable = driver.findElement(By.xpath("//*[@role='menuitem']/div[text()='Label']")); 
+		        
+		        Actions builder = new Actions(driver);
+		       Thread.sleep(5000);
+		        builder.moveToElement(Lable).perform();
+		        //By Social = By.xpath("//*[@title='Social']/div/div");
+		        Thread.sleep(5000);
+		        driver.findElement(By.xpath("//*[@title='Social']/div")).click();;
+		        
+		        
+		        
+		        //WebDriverWait wait = new WebDriverWait(driver, 30);
+		        //Fluent waith
+			    	// wait.withTimeout(20, TimeUnit.SECONDS);
+		        //Explicit waith
+		        	// wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[text()='Send']")));
+		       ////*[@role='button'][contains(text(),'Send')]
+		        
+		        
+		        Thread.sleep(5000);
+		        //Click on send button
+		        WebElement btn = driver.findElement(By.xpath("//div[contains(text(),'Send')]"));
+		       /* String Sendbtn = btn.getText();
+		        System.out.println(Sendbtn);*/
+					      if(btn.isDisplayed()) {
+					    	  String Sendbtn = btn.getText();
+					    	  //System.out.println(Sendbtn);
+					    	  btn.click();
+					      }
+				
+			    
+				/*Thread.sleep(5000);
+				//Click on Signout Option
+				driver.findElement(By.xpath("//*[contains(@href,'SignOutOptions')]")).click();
+				
+				Thread.sleep(5000);
+				//Click on Signout Button
+				driver.findElement(By.xpath("//*[contains(@href,'Logout')]")).click();;*/
+				
+				//Wait for the email to arrive in the Inbox
+				Thread.sleep(10000);
+       
+				//Click on Social Tab
+				WebElement socialTab = driver.findElement(By.xpath("//tr[@role='tablist']/td[2]/div"));
+				socialTab.click();
+				
+				//Mark email as starred and Open the received email
+				String str = "//div[2][@role='tabpanel']//tr" ;
+				List<WebElement> socialInbox = driver.findElements(By.xpath(str));
+				
+					for(int i=1; i<=socialInbox.size(); i++) {
+						////tr[@class='zA zE'][1]/td[5]/div[2]/span/span
+						//tr[@class='zA zE'][1]/td[5]/div[2]/span
+						//tr[@class='zA zE'][1]/td/span
+						WebElement socialRow = driver.findElement(By.xpath(str + "[" + i + "]"));
+						System.out.println(socialRow.getText());
+						System.out.println(socialRow.getAttribute("email"));//null
+						System.out.println(socialRow.getTagName());//div
+						System.out.println(socialRow.getLocation());//(0,0)
+						WebElement socialCol = driver.findElement(By.xpath(str + "[" + i + "]"+"/td[5]/div[2]/span/span"));
+						System.out.println(socialCol.getText());
+						WebElement socialStared = driver.findElement(By.xpath(str + "[" + i + "]"+"/td[3]/span"));
+							
+								if(socialCol.getText().contentEquals("me")) {
+									//Mark email as starred
+									socialStared.click();
+									System.out.println("Marked Mail as Stared");
+									Thread.sleep(5000);
+									//Open the received email
+									socialRow.click();
+									System.out.println("Click on Mail");
+									break;
+								
+							}
+						}
+				Thread.sleep(5000);
+				//Verify email came under proper Label i.e. "Social"
+					
+				//MouseHover on Label button to enable it
+				Actions actions = new Actions(driver);
+				String lbltitelstr = "//div[@title='Labels']";
+				List<WebElement> titleLabels = driver.findElements(By.xpath(lbltitelstr));
+				if(titleLabels.size()>1) {
+					WebElement lbltitelstr2 = driver.findElement(By.xpath("(//div[@title='Labels'])[2]"));
+					actions.moveToElement(lbltitelstr2).build().perform();
+					System.out.println("Hover performed with second locater" + lbltitelstr2 );
+					actions.moveToElement(lbltitelstr2).click();
+					System.out.println("Click on Label");
+					//lbltitelstr2.click();
+				}else{
+					WebElement lbltitelstr1 = driver.findElement(By.xpath(lbltitelstr));
+					actions.moveToElement(lbltitelstr1).build().perform();
+					System.out.println("Hover performed with second locater" + lbltitelstr1 );
+					actions.moveToElement(lbltitelstr1).click();
+					System.out.println("Click on Label");
+					//lbltitelstr1.click();
+				}
+				
+				Thread.sleep(5000);
+				//Click on Label button
+				String btnLabel = "//div[@aria-label='Labels']";
+				List<WebElement> btnLabellist = driver.findElements(By.xpath(btnLabel));
+				if(btnLabellist.size()>1) {
+					WebElement btnLabel2 = driver.findElement(By.xpath("(//div[@aria-label='Labels'])[2]"));
+					btnLabel2.click();
+					System.out.println(btnLabel2);
+					System.out.println("Click on Label");
+				}else {
+					WebElement btnLabel1 = driver.findElement(By.xpath(btnLabel));
+					System.out.println(btnLabel1);
+					btnLabel1.click();
+					System.out.println("Click on Label");
+				}
+				
+				
+					Thread.sleep(5000);
+					WebElement socialLabel1 = driver.findElement(By.xpath("//div[@title='Social']/div"));
+					if(!socialLabel1.isSelected()){
+						WebElement socialLabel = driver.findElement(By.xpath("//div[@title='Social']"));
+						String asserttrue = socialLabel.getAttribute("aria-checked");
+						System.out.println(socialLabel.getAttribute("aria-checked"));
+						assertEquals("true", asserttrue);
+						System.out.println("This mail is labeled as 'Social'" + socialLabel);
+						//assertTrue(socialLabel1.isSelected());
+					}else {
+						WebElement socialLabel2 = driver.findElement(By.xpath("//div[@title='Social']/div/div"));
+						socialLabel2.isSelected();
+						System.out.println("This mail is labeled as 'Social'" + socialLabel2);
+						WebElement socialLabel = driver.findElement(By.xpath("//div[@title='Social']"));
+						String asserttrue = socialLabel.getAttribute("aria-checked");
+						System.out.println(socialLabel.getAttribute("aria-checked"));
+						assertEquals("true", asserttrue);
+						assertTrue(socialLabel2.isSelected());
+					}
+					
+					
+					WebElement btnLabel1 = driver.findElement(By.xpath(btnLabel));
+					System.out.println(btnLabel1);
+					btnLabel1.click();
+					System.out.println("Click on Label after validation of social checkbox");
+				
+					//Validate mail is labeled as 'Social'
+					//assertTrue(socialLabel.isSelected());
+					Thread.sleep(5000);
+				
+					//Verify the subject and body of the received email
+					//subject validation
+					WebElement validateSubject = driver.findElement(By.xpath("//h2[text()='Automation Test']"));
+					System.out.println(validateSubject.getText());
+					assertEquals(validateSubject.getText(), properties.getProperty("email.subject"));
+					
+					//Body validation
+					Thread.sleep(5000);
+					WebElement validateBody = driver.findElement(By.xpath("//div[@dir='ltr' and contains(text(),'automation script')]"));
+					System.out.println(validateBody.getText());
+					assertEquals(validateBody.getText(), properties.getProperty("email.body"));
+					
+				
+    }
+}

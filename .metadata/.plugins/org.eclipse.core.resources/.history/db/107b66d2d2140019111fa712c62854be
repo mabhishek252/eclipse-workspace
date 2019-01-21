@@ -1,0 +1,28 @@
+package com.qa.tests;
+
+import org.testng.annotations.BeforeMethod;
+
+import com.qa.base.BaseClass;
+import com.qa.clients.RestClients;
+
+public class PutAPITest extends BaseClass{
+	BaseClass baseClass;
+	RestClients restClient;
+	
+	@BeforeMethod
+	public void sdtup() {
+		baseClass =new BaseClass();
+		String baseURL = prop.getProperty("baseURL");
+		String serviceURL = prop.getProperty("serviceURL");
+		
+		String url = baseURL + serviceURL;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+}

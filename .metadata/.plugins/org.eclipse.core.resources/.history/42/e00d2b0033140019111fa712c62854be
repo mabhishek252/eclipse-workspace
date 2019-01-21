@@ -1,0 +1,25 @@
+package com.qa.base;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class BaseClass {
+
+	
+	public Properties prop;
+
+	// constructor to load config.proprties file
+	public BaseClass() {
+		try {
+			prop = new Properties();
+			FileInputStream fileInputStream = new FileInputStream(System.getProperty("user.dir"+"src/main/java/com/qa/config/config.properties"));
+			prop.load(fileInputStream);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}

@@ -1,0 +1,37 @@
+package seleniumBasics;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import com.sun.jna.platform.win32.SetupApi;
+
+public class LoginCRM extends BaseClass{
+
+	
+	
+	
+	public static void main(String[] args) {
+		BaseClass bc = new BaseClass();
+	bc.setUp(System.getProperty("url"));
+		
+		//Maximize Browser
+		driver.manage().window().maximize();
+		
+		//Implementing Wait for on each consecutive steps 
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		
+		//provide username and password from properties file to get  login CRM site
+		driver.findElement(By.name("username")).sendKeys(System.getProperty("username"));
+		driver.findElement(By.name("password")).sendKeys(System.getProperty("password"));
+		driver.findElement(By.xpath("//*[@type='submit']")).click();
+		
+		
+		
+		
+		
+	}
+
+}

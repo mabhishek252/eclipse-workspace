@@ -1,0 +1,25 @@
+package keywordTHIS;
+
+public class CheckThisKeyword {
+	int a = 2;
+	int b = 3;
+	
+	public void setData(int a, int b) {
+		a = a;
+		b = b;
+	}
+	
+	public void showData() {
+		
+		System.out.println("Value of A = " + a);
+		System.out.println("Value of B = " + b);
+	}
+	public static void main(String[] args) {
+
+		CheckThisKeyword obj = new CheckThisKeyword();
+		obj.setData(2, 3);
+		obj.showData();
+		
+	}
+
+}

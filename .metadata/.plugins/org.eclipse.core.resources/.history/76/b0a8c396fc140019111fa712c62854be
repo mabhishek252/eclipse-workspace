@@ -1,0 +1,11 @@
+package com.utils;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+public class LoginPageElmt extends BaseClass{
+	public final static WebElement username = driver.findElement(By.name("username"));
+	public final static WebElement password = driver.findElement(By.name("username"));
+	final static WebElement submitbtn = driver.findElement(By.xpath("//*[@type='submit']"));
+	final static WebElement logoutbtn = driver.findElement(By.xpath("//*[contains(@href,'logout')]"));
+}

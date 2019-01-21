@@ -1,0 +1,31 @@
+package com.qa.base;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+public class BaseClass {
+
+	public int Respons_Status_Code_200 = 200;
+	public int Respons_Status_Code_500 = 500;
+	public int Respons_Status_Code_400 = 400;
+	public int Respons_Status_Code_401 = 401;
+	public int Respons_Status_Code_201 = 201;
+	
+	public Properties prop;
+	final static String fileName = "C:\\Users\\Admin\\eclipse-workspace\\RestAPI\\src\\main\\java\\com\\qa\\config\\config.properties";
+
+	// constructor to load config.proprties file
+	public BaseClass() {
+		try {
+			prop = new Properties();
+			FileInputStream fileInputStream = new FileInputStream(fileName);
+			prop.load(fileInputStream);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}

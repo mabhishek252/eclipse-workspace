@@ -1,0 +1,45 @@
+package com.qa.tests;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qa.base.BaseClass;
+import com.qa.clients.RestClients;
+import com.qa.data.Users;
+
+public class PutAPITest extends BaseClass{
+	BaseClass baseClass;
+	RestClients restClient;
+	String url;
+	
+	@BeforeMethod
+	public void sdtup() {
+		baseClass = new BaseClass();
+		String baseURL = prop.getProperty("baseURL");
+		String serviceURL = prop.getProperty("serviceURL");
+		url = baseURL + serviceURL;
+	}
+	
+	@Test
+	public void putAPITest() throws JsonProcessingException {
+		restClient = new RestClients();
+		
+		//Create mapper object for marshaling
+		ObjectMapper mapper = new ObjectMapper();
+		Users user =new Users("morphis", "XYZ");
+		
+		//Java object to json object
+		String jsonStrgValue = mapper.writeValueAsString(user);
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+}

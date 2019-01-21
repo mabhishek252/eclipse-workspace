@@ -1,0 +1,14 @@
+package threading;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Th_ThreadPool {
+
+	public static void main(String[] args) {
+
+		ExecutorService executor = Executors.newFixedThreadPool(5);
+	}
+
+}
+

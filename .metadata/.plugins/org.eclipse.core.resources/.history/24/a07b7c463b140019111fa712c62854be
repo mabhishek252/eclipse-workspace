@@ -1,0 +1,49 @@
+package com.qa.tests;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qa.base.BaseClass;
+import com.qa.clients.RestClients;
+import com.qa.data.Users;
+
+public class PostAPITest extends BaseClass {
+	BaseClass baseClass;
+	RestClients restClients;
+	String baseURL;
+	String serviecURL;
+	String url;
+	CloseableHttpClient CloseableHttpResponse;
+	
+	@BeforeMethod
+	public void setUp() throws ClientProtocolException, IOException {
+		baseClass = new BaseClass();
+		baseURL = prop.getProperty("baseURL");
+		serviecURL = prop.getProperty("serviceURL");
+		
+		//Base URL to get data means "https://reqres.in/api/users"
+		url = baseURL + serviecURL;
+	}
+	
+	@Test
+	public void postAPITest() {
+		restClients = new RestClients();
+		HashMap<String, String> headerMap = new HashMap<String, String>();
+		headerMap.put("Content-Type", "application/json");
+		
+		// jackson API (It is use to convert java class file to json object)
+		ObjectMapper mapper = new ObjectMapper();
+		Users users = new Users("morphis", "leader");
+		
+		//Java object to json object
+		mapper.writeValue(resultFile, value);
+		
+	}
+	
+}
